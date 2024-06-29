@@ -17,3 +17,5 @@ vim.opt.spell = true
 
 vim.opt.wrap = true
 vim.opt.linebreak = true
+-- Show the 'nbsp' character as a normal space
+vim.opt.listchars = { nbsp = ' ' }

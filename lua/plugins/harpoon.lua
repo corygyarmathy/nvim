@@ -40,7 +40,7 @@ return {
       end, { desc = 'Open Harpoon [s]witcher' })
       vim.keymap.set('n', '<leader>a', function()
         harpoon:list():add()
-      end, { desc = '[A]dd file to harpoon' })
+      end, { desc = '[A]dd file to Harpoon' })
 
       vim.keymap.set('n', '<C-n>', function()
         harpoon:list():select(1)

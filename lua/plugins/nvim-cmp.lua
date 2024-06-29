@@ -33,6 +33,7 @@ return { -- Autocompletion
     --  into multiple repos for maintenance purposes.
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
+    -- 'jalvesaq/cmp-zotcite',
   },
   config = function()
     -- See `:help cmp`
@@ -104,6 +105,7 @@ return { -- Autocompletion
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
+        -- { name = 'cmp-zotcite' },
       },
     }
   end,

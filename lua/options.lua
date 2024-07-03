@@ -67,7 +67,13 @@ vim.opt.scrolloff = 9
 vim.opt.conceallevel = 1
 
 -- Set the Vim shell (when using :!<shell command>)
-vim.opt.shell = 'pwsh'
+if vim.fn.has 'win32' == 1 and vim.fn.has 'wsl' == 0 then
+  vim.opt.shell = 'pwsh'
+  vim.opt.shellcmdflag = '-nologo -noprofile -ExecutionPolicy RemoteSigned -command'
+  vim.opt.shellxquote = ''
+end
+-- Enable 24-bit colour (required for nvim-notify / noice.nvim)
+-- vim.opt.termguicolors = true
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

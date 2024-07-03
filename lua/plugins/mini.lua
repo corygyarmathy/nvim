@@ -1,5 +1,9 @@
 return { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
+  version = '*',
+  dependencies = {
+    'nvim-tree/nvim-web-devicons', -- used by mini-statusline
+  },
   config = function()
     -- Better Around/Inside textobjects
     --
@@ -16,6 +20,10 @@ return { -- Collection of various small independent plugins/modules
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
 
+    -- require('mini.notify').setup {
+    --   lsp_progress = { enable = false },
+    -- }
+
     -- Simple and easy statusline.
     --  You could remove this setup call if you don't like it,
     --  and try some other statusline plugin
@@ -30,7 +38,24 @@ return { -- Collection of various small independent plugins/modules
     statusline.section_location = function()
       return '%2l:%-2v'
     end
+    -- Use mini notifications
+    require('mini.notify').setup {
+      lsp_progress = {
+        enable = true,
+      },
+      window = {
+        config = function()
+          -- Set the mini notifications to be in the bottom right
+          local has_statusline = vim.o.laststatus > 0
+          local bottom_space = vim.o.cmdheight + (has_statusline and 1 or 0)
+          return { anchor = 'SE', col = vim.o.columns, row = vim.o.lines - bottom_space }
+        end,
+      },
+    }
+    -- Force default Vim notifications to use mini.notify
+    vim.notify = MiniNotify.make_notify()
 
+    require('mini.starter').setup()
     -- ... and there is more!
     --  Check out: https://github.com/echasnovski/mini.nvim
   end,

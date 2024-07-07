@@ -64,7 +64,7 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 9
 
 -- Hides concealed characters (default is to diplay them as normal text (-1)
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 0
 
 -- Set the Vim shell (when using :!<shell command>)
 if vim.fn.has 'win32' == 1 and vim.fn.has 'wsl' == 0 then

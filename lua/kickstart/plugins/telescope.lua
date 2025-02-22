@@ -1,19 +1,13 @@
--- NOTE: Plugins can specify dependencies.
---
--- The dependencies are proper plugin specifications as well - anything
--- you do for a plugin at the top level, you can do for a dependency.
---
--- Use the `dependencies` key to specify the dependencies of a particular plugin
-
 return {
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
-    branch = '0.1.x',
+    version = '*',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
         'nvim-telescope/telescope-fzf-native.nvim',
+        'nvim-telescope/telescope-bibtex.nvim',
 
         -- `build` is used to run some command when the plugin is installed/updated.
         -- This is only run then, not every time Neovim starts up.
@@ -66,12 +60,49 @@ return {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+          bibtex = {
+            -- Depth for the *.bib file
+            depth = 1,
+            -- Custom format for citation label
+            custom_formats = {},
+            -- Format to use for citation label.
+            -- Try to match the filetype by default, or use 'plain'
+            format = '',
+            -- Path to global bibliographies (placed outside of the project)
+            global_files = { 'C:\\Users\\coryg\\Documents\\MyZoteroLibary.bib' },
+            -- Define the search keys to use in the picker
+            search_keys = { 'author', 'year', 'title' },
+            -- Template for the formatted citation
+            citation_format = '{{author}} ({{year}}), {{title}}.',
+            -- Only use initials for the authors first name
+            citation_trim_firstname = true,
+            -- Max number of authors to write in the formatted citation
+            -- following authors will be replaced by "et al."
+            citation_max_auth = 2,
+            -- Context awareness disabled by default
+            context = false,
+            -- Fallback to global/directory .bib files if context not found
+            -- This setting has no effect if context = false
+            context_fallback = true,
+            -- Wrapping in the preview window is disabled by default
+            wrap = false,
+            -- user defined mappings
+            -- local bibtex_actions = require 'telescope-bibtex.actions',
+            -- mappings = {
+            --   i = {
+            --     ['<CR>'] = bibtex_actions.key_append '%s', -- format is determined by filetype if the user has not set it explictly
+            --     ['<C-e>'] = bibtex_actions.entry_append,
+            --     ['<C-c>'] = bibtex_actions.citation_append '{{author}} ({{year}}), {{title}}.',
+            --   },
+            -- },
+          },
+          noice = {},
         },
       }
-
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'bibtex')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -108,7 +139,12 @@ return {
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      -- Map Bibtex keymaps
+      vim.keymap.set('n', '<leader>sb', '<Cmd>Telescope bibtex<CR>', { desc = '[S]earch [B]ibliography' })
     end,
   },
 }
+
+-- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -7,8 +7,10 @@
 -- kickstart.nvim and not kitchen-sink.nvim ;)
 
 return {
+  -- DAP (Debug Adapter Protocol) is used for debugging in nvim
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
+  version = '*',
   -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
@@ -76,6 +78,7 @@ return {
       end,
       desc = 'Debug: See last session result.',
     },
+    'Willem-J-an/nvim-dap-powershell',
   },
   config = function()
     local dap = require 'dap'
@@ -95,6 +98,7 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        -- 'delve', -- Go debugger
       },
     }
 
@@ -131,8 +135,11 @@ return {
     --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
     --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
     -- end
+    dap.listeners.after.event_initialized['dapui_config'] = function()
+      dapui.open {}
+      require('dap-powershell').correct_repl_colors() -- correct the colours for PowerShell
+    end
 
-    dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
     dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
@@ -143,6 +150,13 @@ return {
         -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
         detached = vim.fn.has 'win32' == 0,
       },
+    -- Install PowerShell specific config
+    require('dap-powershell').setup {
+      include_configs = true,
+      pwsh_executable = 'pwsh',
     }
   end,
 }
+
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et

@@ -16,6 +16,7 @@
 return {
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
+    version = '*',
     opts = {
       signs = {
         add = { text = '+' },
@@ -77,4 +78,6 @@ return {
     },
   },
 }
+
+-- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

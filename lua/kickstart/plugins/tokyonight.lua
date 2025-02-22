@@ -19,6 +19,17 @@ return {
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'tokyonight-night'
     end,
+    -- You can configure highlights by doing something like:
+    vim.cmd.hi 'Comment gui=none'
+  end,
+  opts = {
+    transparent = true,
+    styles = {
+      sidebars = 'transparent',
+      floats = 'transparent',
+    },
   },
 }
+
+-- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

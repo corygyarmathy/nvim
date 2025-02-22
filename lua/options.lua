@@ -1,3 +1,7 @@
+-- [[ Basic Options ]]
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -61,4 +65,17 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Hides concealed characters (default is to diplay them as normal text (-1)
+vim.opt.conceallevel = 0
+
+-- Set the Vim shell (when using :!<shell command>)
+if vim.fn.has 'win32' == 1 and vim.fn.has 'wsl' == 0 then
+  vim.opt.shell = 'pwsh'
+  vim.opt.shellcmdflag = '-nologo -noprofile -ExecutionPolicy RemoteSigned -command'
+  vim.opt.shellxquote = ''
+end
+-- Enable 24-bit colour (required for nvim-notify / noice.nvim)
+-- vim.opt.termguicolors = true
+
+-- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
